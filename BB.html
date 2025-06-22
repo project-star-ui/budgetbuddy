@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Budge Buddy</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<!-- Tailwind for theme utilities -->
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root {
+  --primary-color: #ff6f91;
+  --secondary-color: #ffaad3;
+  --background-color: #fff0f6;
+  --text-color: #6a2c70;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --error-color: #dc3545;
+}
+
+/* Base styles */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0; 
+  font-family: 'Comic Neue', cursive;
+  min-height: 100vh;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  padding: 10px;
+  transition: background 0.5s ease;
+}
+
+.container {
+  background: rgba(255,255,255,0.95);
+  max-width: 460px; 
+  width: 100%;
+  border-radius: 20px; 
+  padding: 15px;
+  box-shadow: 0 8px 16px rgba(255,182,193,0.5);
+  margin: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Theme classes */
+.theme-default {
+  background: linear-gradient(270deg, #f9c5d1, #f7e3af, #b0d6e8);
+  background-size: 800% 800%;
+  animation: gradient 20s ease infinite;
+}
+
+.theme-space {
+  background: linear-gradient(270deg, #0f0c29, #302b63, #24243e);
+  background-size: 800% 800%;
+  animation: gradient 20s ease infinite;
+}
+
+.theme-jungle {
+  background: linear-gradient(270deg, #1e9600, #fff200, #ff0000);
+  background-size: 800% 800%;
+  animation: gradient 20s ease infinite;
+}
+
+.theme-ocean {
+  background: linear-gradient(270deg, #00c9ff, #92fe9d, #00d2ff);
+  background-size: 800% 800%;
+  animation: gradient 20s ease infinite;
+}
+
+.theme-candy {
+  background: linear-gradient(270deg, #ff9a9e, #fad0c4, #fbc2eb);
+  background-size: 800% 800%;
+  animation: gradient 20s ease infinite;
+}
+
+@keyframes gradient {0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+h1 {
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  color: var(--primary-color);
+  text-align: center;
+  margin: 5px 0 10px;
+  text-shadow: 1px 1px 2px rgba(255, 191, 220, 0.7);
+}
+
+form { 
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+input, button, select {
+  font-family: inherit;
+  font-size: 1rem;
+  width: 100%;
+}
+
+input[type=text], 
+input[type=password], 
+input[type=number], 
+input[type=date],
+select {
+  padding: 12px 15px;
+  border-radius: 15px;
+  border: 2px solid var(--secondary-color);
+  outline: none;
+  transition: all 0.3s;
+}
+
+input:focus, select:focus {
+  border-color: var(--primary-color);
+  background: var(--background-color);
+}
+
+button {
+  background: var(--primary-color);
+  color: white;
+  font-weight: 700;
+  padding: 12px 0;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(255, 111, 145, 0.4);
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+button:hover { 
+  transform: translateY(-2px); 
+  box-shadow: 0 6px 12px rgba(255, 111, 145, 0.6);
+}
+
+button:active { 
+  transform: scale(0.98); 
+}
+
+.switch-link {
+  color: var(--primary-color);
+  font-weight: 600;
+  text-align: center;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.switch-link:hover { text-decoration: underline; }
+
+.hidden { display: none !important; }
+
+/* Response messages */
+.response {
+  margin-top: 10px;
+  font-weight: 700;
+  text-align: center;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.success { 
+  background-color: rgba(40, 167, 69, 0.1); 
+  color: var(--success-color);
+}
+
+.error { 
+  background-color: rgba(220, 53, 69, 0.1); 
+  color: var(--error-color);
+}
+
+/* Tracker section */
+#welcomeName {
+  font-weight: 700; 
+  font-size: 1.4rem;
+  color: var(--primary-color);
+  text-align: center;
+  margin: 5px 0 10px;
+}
+
+.smart-cards {
+  background: rgba(255, 230, 240, 0.8);
+  border-radius: 20px;
+  padding: 15px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 8px rgba(255, 111, 145, 0.3);
+  color: var(--text-color);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--primary-color);
+}
+
+.expense-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.expense-row input {
+  flex: 1;
+  padding: 10px;
+}
+
+.delete-btn {
+  background: var(--primary-color) !important;
+  border-radius: 50%;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  font-size: 0.9rem;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+#addOtherExpenseBtn {
+  background: var(--secondary-color);
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#summary {
+  background: var(--background-color);
+  border-radius: 20px;
+  padding: 15px;
+  color: var(--text-color);
+  margin-top: 15px;
+}
+
+#summary p {
+  margin: 6px 0;
+  font-weight: 700;
+}
+
+#motivation {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+/* Theme picker */
+.theme-picker {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+}
+
+.theme-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: transform 0.3s;
+  margin: 3px;
+}
+
+.theme-btn:hover {
+  transform: scale(1.1);
+}
+
+.theme-default-btn { background: linear-gradient(45deg, #f9c5d1, #f7e3af, #b0d6e8); }
+.theme-space-btn { background: linear-gradient(45deg, #0f0c29, #302b63, #24243e); }
+.theme-jungle-btn { background: linear-gradient(45deg, #1e9600, #fff200, #ff0000); }
+.theme-ocean-btn { background: linear-gradient(45deg, #00c9ff, #92fe9d, #00d2ff); }
+.theme-candy-btn { background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb); }
+
+.theme-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.7);
+  z-index: 100;
+}
+
+.theme-preview.active {
+  display: flex;
+}
+
+.theme-options {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 300px;
+  width: 90%;
+}
+
+.theme-option-btn {
+  margin: 8px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: all 0.3s;
+  border: 3px solid white;
+}
+
+.theme-option-btn:hover {
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.close-preview {
+  background: var(--primary-color);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+/* Mobile optimizations */
+@media (max-width: 480px) {
+  .container {
+    padding: 15px 10px;
+    margin: 5px;
+  }
+  
+  input[type=text], 
+  input[type=password], 
+  input[type=number], 
+  input[type=date], 
+  select {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+  }
+  
+  button {
+    padding: 10px 0;
+    font-size: 0.95rem;
+  }
+  
+  .expense-row {
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .expense-row input {
+    width: 100%;
+  }
+  
+  .delete-btn {
+    align-self: flex-end;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  #welcomeName {
+    font-size: 1.2rem;
+  }
+  
+  .smart-cards {
+    padding: 12px;
+  }
+}
+</style>
+</head>
+<body class="theme-default">
+<div class="container">
+
+<!-- Theme Picker Floating Button -->
+<div class="theme-picker">
+  <button id="themeToggle" class="theme-btn theme-default-btn"><i class="fas fa-palette"></i></button>
+</div>
+
+<!-- Theme Preview Modal -->
+<div id="themePreview" class="theme-preview">
+  <div class="theme-options">
+    <h3 style="color: var(--primary-color); margin-bottom: 15px;">Choose Your Theme!</h3>
+    <button class="theme-option-btn theme-default-btn" data-theme="theme-default"><i class="fas fa-star"></i></button>
+    <button class="theme-option-btn theme-space-btn" data-theme="theme-space"><i class="fas fa-rocket"></i></button>
+    <button class="theme-option-btn theme-jungle-btn" data-theme="theme-jungle"><i class="fas fa-leaf"></i></button>
+    <button class="theme-option-btn theme-ocean-btn" data-theme="theme-ocean"><i class="fas fa-fish"></i></button>
+    <button class="theme-option-btn theme-candy-btn" data-theme="theme-candy"><i class="fas fa-candy-cane"></i></button>
+    <button class="close-preview">Close</button>
+  </div>
+</div>
+
+<!-- Signup Section -->
+<section id="signupSection" class="active">
+  <h1><i class="fa-solid fa-wallet"></i> Budget Buddy <span class="dollar-animation">💰📈📊</span></h1>
+  <form id="signupForm">
+    <input name="nickname" type="text" placeholder="Nickname" required>
+    <input name="username" type="text" placeholder="Username" required>
+    <input name="password" type="password" placeholder="Password" required>
+    <button type="submit"><i class="fa-solid fa-user-plus"></i> Sign Up</button>
+  </form>
+  <div id="signupResponse" class="response"></div>
+  <p class="switch-link" id="toLogin">Already have an account? Log in here.</p>
+</section>
+
+<!-- Login Section -->
+<section id="loginSection" class="hidden">
+  <h1><i class="fa-solid fa-wallet"></i> Budget Buddy <span class="dollar-animation">💰📈📊</span></h1>
+  <form id="loginForm">
+    <input name="username" type="text" placeholder="Username" required>
+    <input name="password" type="password" placeholder="Password" required>
+    <button type="submit"><i class="fa-solid fa-right-to-bracket"></i> Log In</button>
+  </form>
+  <div id="loginResponse" class="response"></div>
+  <p class="switch-link" id="toSignup">Don't have an account? Sign up here.</p>
+</section>
+
+<!-- Tracker Section -->
+<section id="trackerSection" class="hidden">
+  <div id="welcomeName"></div>
+  
+  <div class="smart-cards">
+    <strong><i class="fas fa-lightbulb"></i> Smart Money Tips:</strong>
+    <ul style="margin-top: 5px; padding-left: 20px;">
+      <li>🎯 Save 10% of your allowance</li>
+      <li>🛍️ Track your expenses</li>
+      <li>💡 Think before you spend</li>
+      <li>📈 Plan weekly</li>
+    </ul>
+  </div>
+  
+  <form id="expenseForm">
+    <label><i class="fas fa-calendar-alt"></i> Date</label>
+    <input name="date" type="date" required>
+    
+    <label><i class="fas fa-coins"></i> Allowance (₱)</label>
+    <input name="allowance" type="number" min="0" required>
+    
+    <label><i class="fas fa-bus"></i> Transportation (₱)</label>
+    <input name="transportation" type="number" min="0" value="0" required>
+    
+    <label><i class="fas fa-utensils"></i> Meals or Snacks (₱)</label>
+    <input name="meals" type="number" min="0" value="0" required>
+    
+    <label><i class="fas fa-shopping-basket"></i> Other Expenses</label>
+    <div id="otherExpensesList"></div>
+    
+    <button type="button" id="addOtherExpenseBtn"><i class="fa-solid fa-plus"></i> Add Other Expense</button>
+    <button type="submit"><i class="fa-solid fa-check"></i> Submit Expenses</button>
+  </form>
+  
+  <div id="summary" class="hidden">
+    <p><i class="fas fa-piggy-bank"></i> <strong>Allowance:</strong> ₱<span id="sumAllowance">0</span></p>
+    <p><i class="fas fa-receipt"></i> <strong>Total Expenses:</strong> ₱<span id="sumExpenses">0</span></p>
+    <p><i class="fas fa-wallet"></i> <strong>Remaining:</strong> ₱<span id="sumRemaining">0</span></p>
+    <p><i class="fas fa-bullseye"></i> <strong>Target Save (10%):</strong> ₱<span id="sumTarget">0</span></p>
+    <p><i class="fas fa-coins"></i> <strong>Savings:</strong> ₱<span id="sumActual">0</span></p>
+    <p id="motivation"></p>
+  </div>
+  
+  <button id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+</section>
+</div>
+
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnl_EqA7orHiOLBYAc1YuLCYp-1KwZbF9AjoGVhNQmfBzlDzXEYBYb_Uy_t51u4GHgxw/exec';
+
+const signupSection = document.getElementById('signupSection');
+const loginSection = document.getElementById('loginSection');
+const trackerSection= document.getElementById('trackerSection');
+
+const signupForm = document.getElementById('signupForm');
+const loginForm = document.getElementById('loginForm');
+const expenseForm= document.getElementById('expenseForm');
+
+const signupResponse = document.getElementById('signupResponse');
+const loginResponse = document.getElementById('loginResponse');
+
+const welcomeName = document.getElementById('welcomeName');
+
+document.getElementById('toLogin').onclick = showLogin;
+document.getElementById('toSignup').onclick = showSignup;
+
+function showSignup(){
+signupSection.classList.remove('hidden');
+loginSection.classList.add('hidden');
+trackerSection.classList.add('hidden');
+signupResponse.textContent = '';
+}
+function showLogin(){
+signupSection.classList.add('hidden');
+loginSection.classList.remove('hidden');
+trackerSection.classList.add('hidden');
+loginResponse.textContent = '';
+}
+function showTracker(username){
+signupSection.classList.add('hidden');
+loginSection.classList.add('hidden');
+trackerSection.classList.remove('hidden');
+welcomeName.textContent = `Hi, ${username}! 🎉`;
+expenseForm.reset();
+document.getElementById('summary').classList.add('hidden');
+document.querySelector('#otherExpensesList').innerHTML = '';
+document.querySelector('[name=date]').value = new Date().toISOString().split('T')[0];
+}
+
+signupForm.addEventListener('submit', async e => {
+e.preventDefault();
+signupResponse.textContent = '';
+const formData = new FormData(signupForm);
+formData.append('action','signup');
+const res = await fetch(SCRIPT_URL,{method:'POST',body:new URLSearchParams(formData)});
+const txt=await res.text();
+signupResponse.textContent = txt;
+signupResponse.className = txt.includes('successful')?'success':'error';
+if(txt.includes('successful')) setTimeout(showLogin,1000);
+});
+
+loginForm.addEventListener('submit', async e => {
+e.preventDefault();
+loginResponse.textContent = '';
+const formData = new FormData(loginForm);
+formData.append('action','login');
+const res = await fetch(SCRIPT_URL,{method:'POST',body:new URLSearchParams(formData)});
+const txt=await res.text();
+loginResponse.textContent = txt;
+loginResponse.className = txt.includes('successful')?'success':'error';
+if(txt.includes('successful')){
+const user = loginForm.username.value;
+showTracker(user.charAt(0).toUpperCase()+user.slice(1));
+}
+});
+
+document.getElementById('addOtherExpenseBtn').addEventListener('click', () => {
+const row = document.createElement('div'); row.className='expense-row';
+const i1 = document.createElement('input'); i1.type='text'; i1.placeholder='Item'; i1.required=true;
+const i2 = document.createElement('input'); i2.type='number'; i2.min='0'; i2.placeholder='₱ Amount'; i2.required=true;
+const btn = document.createElement('button'); btn.type='button'; btn.className='delete-btn'; btn.innerHTML='<i class="fa-solid fa-xmark"></i>';
+btn.onclick = ()=>row.remove();
+row.append(i1,i2,btn);
+document.getElementById('otherExpensesList').append(row);
+});
+
+expenseForm.addEventListener('submit', async e => {
+e.preventDefault();
+const username = welcomeName.textContent.replace('Hi, ','').replace(' 🎉','');
+const data = new FormData(expenseForm);
+const otherItems=[]; const otherAmounts=[];
+document.querySelectorAll('.expense-row').forEach(r => {
+otherItems.push(r.children[0].value);
+otherAmounts.push(r.children[1].value);
+});
+data.append('action','submitExpenses');
+data.append('username', username.toLowerCase());
+data.append('otherItems', JSON.stringify(otherItems));
+data.append('otherAmounts', JSON.stringify(otherAmounts));
+const res = await fetch(SCRIPT_URL,{method:'POST',body:new URLSearchParams(data)});
+await res.text(); // ignore message for now
+// display summary
+const allowance = +data.get('allowance');
+const t = +data.get('transportation');
+const m = +data.get('meals');
+const totalOthers = otherAmounts.reduce((a,b)=>a+(+b),0);
+const total = t+m+totalOthers;
+document.getElementById('sumAllowance').textContent = allowance.toFixed(2);
+document.getElementById('sumExpenses').textContent = total.toFixed(2);
+document.getElementById('sumRemaining').textContent = (allowance-total).toFixed(2);
+const target = allowance*0.1;
+document.getElementById('sumTarget').textContent = target.toFixed(2);
+document.getElementById('sumActual').textContent = ((allowance-total)>=target?allowance-total:0).toFixed(2);
+const msg = document.getElementById('motivation');
+if ((allowance-total)>=target) {
+msg.textContent = '🎉 You hit your savings goal!';
+msg.style.color='#28a745';
+} else if ((allowance-total)>0) {
+msg.textContent = 'Keep going, you’re close!';
+msg.style.color='#ff6f91';
+} else {
+msg.textContent = 'Try saving a bit tomorrow!';
+msg.style.color='#6a2c70';
+}
+document.getElementById('summary').classList.remove('hidden');
+});
+
+// Theme Picker Functionality
+const themeToggle = document.getElementById('themeToggle');
+const themePreview = document.getElementById('themePreview');
+const themeOptions = document.querySelectorAll('[data-theme]');
+const closePreview = document.querySelector('.close-preview');
+
+// Toggle theme preview modal
+themeToggle.addEventListener('click', () => {
+  themePreview.classList.add('active');
+});
+
+// Close theme preview modal
+closePreview.addEventListener('click', () => {
+  themePreview.classList.remove('active');
+});
+
+// Apply selected theme
+themeOptions.forEach(option => {
+  option.addEventListener('click', () => {
+    const theme = option.getAttribute('data-theme');
+    document.body.className = theme;
+    
+    // Update CSS variables based on theme
+    switch(theme) {
+      case 'theme-space':
+        document.documentElement.style.setProperty('--primary-color', '#6a5acd');
+        document.documentElement.style.setProperty('--secondary-color', '#9370db');
+        document.documentElement.style.setProperty('--background-color', '#f0f8ff');
+        document.documentElement.style.setProperty('--text-color', '#4b0082');
+        break;
+      case 'theme-jungle':
+        document.documentElement.style.setProperty('--primary-color', '#2e8b57');
+        document.documentElement.style.setProperty('--secondary-color', '#3cb371');
+        document.documentElement.style.setProperty('--background-color', '#f0fff0');
+        document.documentElement.style.setProperty('--text-color', '#006400');
+        break;
+      case 'theme-ocean':
+        document.documentElement.style.setProperty('--primary-color', '#1e90ff');
+        document.documentElement.style.setProperty('--secondary-color', '#87cefa');
+        document.documentElement.style.setProperty('--background-color', '#e6f2ff');
+        document.documentElement.style.setProperty('--text-color', '#000080');
+        break;
+      case 'theme-candy':
+        document.documentElement.style.setProperty('--primary-color', '#ff69b4');
+        document.documentElement.style.setProperty('--secondary-color', '#ffb6c1');
+        document.documentElement.style.setProperty('--background-color', '#fff0f5');
+        document.documentElement.style.setProperty('--text-color', '#c71585');
+        break;
+      default: // Default theme
+        document.documentElement.style.setProperty('--primary-color', '#ff6f91');
+        document.documentElement.style.setProperty('--secondary-color', '#ffaad3');
+        document.documentElement.style.setProperty('--background-color', '#fff0f6');
+        document.documentElement.style.setProperty('--text-color', '#6a2c70');
+    }
+    
+    // Close the preview after selection
+    themePreview.classList.remove('active');
+    
+    // Add animation to theme button
+    themeToggle.classList.add('pulse');
+    setTimeout(() => {
+      themeToggle.classList.remove('pulse');
+    }, 500);
+  });
+});
+
+// Add pulse animation class
+const pulseKeyframes = `
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+`;
+const pulseStyle = document.createElement('style');
+pulseStyle.innerHTML = pulseKeyframes;
+document.head.appendChild(pulseStyle);
+
+
+document.getElementById('logoutBtn').onclick = () => {
+showLogin();
+}
+
+// initialize
+showSignup();
+</script>
+</body>
+</html>
