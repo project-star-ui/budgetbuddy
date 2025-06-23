@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Budge Buddy</title>
+<title>Budget Buddy</title>
 <!-- Fonts & Icons -->
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -11,262 +11,446 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 :root {
-  --primary-color: #ff6f91;
-  --secondary-color: #ffaad3;
-  --background-color: #fff0f6;
-  --text-color: #6a2c70;
-  --success-color: #28a745;
-  --warning-color: #ffc107;
-  --error-color: #dc3545;
+--primary-color: #ff6f91;
+--secondary-color: #ffaad3;
+--background-color: #fff0f6;
+--text-color: #6a2c70;
+--success-color: #28a745;
+--warning-color: #ffc107;
+--error-color: #dc3545;
+--accent-color: #ffcccb;
 }
 
 /* Base styles */
-* { box-sizing: border-box; }
+* {
+box-sizing: border-box;
+transition: all 0.3s ease;
+}
 
 body {
-  margin: 0; 
-  font-family: 'Comic Neue', cursive;
-  min-height: 100vh;
-  display: flex; 
-  justify-content: center; 
-  align-items: center;
-  padding: 10px;
-  transition: background 0.5s ease;
+margin: 0;
+font-family: 'Comic Neue', cursive;
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 10px;
+background-color: var(--background-color);
+overflow-x: hidden;
+position: relative;
+}
+
+/* Floating icons background */
+body::before {
+content: '';
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+pointer-events: none;
+z-index: -1;
+background-image:
+url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffaad3' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+background-repeat: repeat;
+z-index: -1;
 }
 
 .container {
-  background: rgba(255,255,255,0.95);
-  max-width: 460px; 
-  width: 100%;
-  border-radius: 20px; 
-  padding: 15px;
-  box-shadow: 0 8px 16px rgba(255,182,193,0.5);
-  margin: 10px;
-  position: relative;
-  overflow: hidden;
+background: rgba(255,255,255,0.95);
+max-width: 460px;
+width: 100%;
+border-radius: 20px;
+padding: 15px;
+box-shadow: 0 8px 16px rgba(255,182,193,0.5);
+margin: 10px;
+position: relative;
+overflow: hidden;
+backdrop-filter: blur(5px);
 }
 
 /* Theme classes */
 .theme-default {
-  background: linear-gradient(270deg, #f9c5d1, #f7e3af, #b0d6e8);
-  background-size: 800% 800%;
-  animation: gradient 20s ease infinite;
+background: linear-gradient(270deg, #f9c5d1, #f7e3af, #b0d6e8);
+background-size: 800% 800%;
+animation: gradient 20s ease infinite;
 }
-
 .theme-space {
-  background: linear-gradient(270deg, #0f0c29, #302b63, #24243e);
-  background-size: 800% 800%;
-  animation: gradient 20s ease infinite;
+background: linear-gradient(270deg, #0f0c29, #302b63, #24243e);
+background-size: 800% 800%;
+animation: gradient 20s ease infinite;
 }
-
 .theme-jungle {
-  background: linear-gradient(270deg, #1e9600, #fff200, #ff0000);
-  background-size: 800% 800%;
-  animation: gradient 20s ease infinite;
+background: linear-gradient(270deg, #1e9600, #fff200, #ff0000);
+background-size: 800% 800%;
+animation: gradient 20s ease infinite;
 }
-
 .theme-ocean {
-  background: linear-gradient(270deg, #00c9ff, #92fe9d, #00d2ff);
-  background-size: 800% 800%;
-  animation: gradient 20s ease infinite;
+background: linear-gradient(270deg, #00c9ff, #92fe9d, #00d2ff);
+background-size: 800% 800%;
+animation: gradient 20s ease infinite;
 }
-
 .theme-candy {
-  background: linear-gradient(270deg, #ff9a9e, #fad0c4, #fbc2eb);
-  background-size: 800% 800%;
-  animation: gradient 20s ease infinite;
+background: linear-gradient(270deg, #ff9a9e, #fad0c4, #fbc2eb);
+background-size: 800% 800%;
+animation: gradient 20s ease infinite;
+}
+.theme-bubbles {
+background: linear-gradient(270deg, #a1c4fd, #c2e9fb, #d4fc79);
+background-size: 800% 800%;
+animation: gradient 20s ease infinite;
 }
 
 @keyframes gradient {0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-
-h1 {
-  font-size: clamp(1.8rem, 5vw, 2.8rem);
-  color: var(--primary-color);
-  text-align: center;
-  margin: 5px 0 10px;
-  text-shadow: 1px 1px 2px rgba(255, 191, 220, 0.7);
+@keyframes float {
+0% { transform: translateY(0px); }
+50% { transform: translateY(-10px); }
+100% { transform: translateY(0px); }
+}
+@keyframes bounce {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(-10px); }
+}
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+@keyframes shake {
+0%, 100% { transform: translateX(0); }
+25% { transform: translateX(-5px); }
+75% { transform: translateX(5px); }
+}
+@keyframes pulse {
+0% { transform: scale(1); }
+50% { transform: scale(1.05); }
+100% { transform: scale(1); }
 }
 
-form { 
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+h1 {
+font-size: clamp(1.8rem, 5vw, 2.8rem);
+color: var(--primary-color);
+text-align: center;
+margin: 5px 0 10px;
+text-shadow: 1px 1px 2px rgba(255, 191, 220, 0.7);
+animation: pulse 2s infinite;
+}
+
+form {
+display: flex;
+flex-direction: column;
+gap: 12px;
 }
 
 input, button, select {
-  font-family: inherit;
-  font-size: 1rem;
-  width: 100%;
+font-family: inherit;
+font-size: 1rem;
+width: 100%;
 }
 
-input[type=text], 
-input[type=password], 
-input[type=number], 
+input[type=text],
+input[type=password],
+input[type=number],
 input[type=date],
 select {
-  padding: 12px 15px;
-  border-radius: 15px;
-  border: 2px solid var(--secondary-color);
-  outline: none;
-  transition: all 0.3s;
+padding: 12px 15px;
+border-radius: 15px;
+border: 2px solid var(--secondary-color);
+outline: none;
+transition: all 0.3s;
+position: relative;
+overflow: hidden;
 }
 
 input:focus, select:focus {
-  border-color: var(--primary-color);
-  background: var(--background-color);
+border-color: var(--primary-color);
+background: var(--background-color);
+box-shadow: 0 0 0 3px rgba(255, 171, 211, 0.3);
+}
+
+/* Custom input animation */
+input[type=text]:before,
+input[type=password]:before,
+input[type=number]:before,
+input[type=date]:before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255, 171, 211, 0.2), transparent);
+transform: translateX(-100%);
+transition: 0.5s;
+}
+
+input[type=text]:focus:before,
+input[type=password]:focus:before,
+input[type=number]:focus:before,
+input[type=date]:focus:before {
+transform: translateX(100%);
 }
 
 button {
-  background: var(--primary-color);
-  color: white;
-  font-weight: 700;
-  padding: 12px 0;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(255, 111, 145, 0.4);
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+background: var(--primary-color);
+color: white;
+font-weight: 700;
+padding: 12px 0;
+border: none;
+border-radius: 30px;
+cursor: pointer;
+box-shadow: 0 4px 8px rgba(255, 111, 145, 0.4);
+transition: all 0.3s;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+position: relative;
+overflow: hidden;
 }
 
-button:hover { 
-  transform: translateY(-2px); 
-  box-shadow: 0 6px 12px rgba(255, 111, 145, 0.6);
+button:hover {
+transform: translateY(-2px);
+box-shadow: 0 6px 12px rgba(255, 111, 145, 0.6);
 }
 
-button:active { 
-  transform: scale(0.98); 
+button:active {
+transform: scale(0.98);
+}
+
+/* Button animation */
+button:after {
+content: '';
+position: absolute;
+top: 50%;
+left: 50%;
+width: 5px;
+height: 5px;
+background: rgba(255, 255, 255, 0.5);
+opacity: 0;
+border-radius: 100%;
+transform: scale(1, 1) translate(-50%);
+transform-origin: 50% 50%;
+}
+
+button:focus:not(:active)::after {
+animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+0% {
+transform: scale(0, 0);
+opacity: 0.5;
+}
+100% {
+transform: scale(20, 20);
+opacity: 0;
+}
 }
 
 .switch-link {
-  color: var(--primary-color);
-  font-weight: 600;
-  text-align: center;
-  margin-top: 8px;
-  cursor: pointer;
+color: var(--primary-color);
+font-weight: 600;
+text-align: center;
+margin-top: 8px;
+cursor: pointer;
+display: inline-block;
+transition: all 0.3s;
 }
 
-.switch-link:hover { text-decoration: underline; }
+.switch-link:hover {
+text-decoration: underline;
+transform: scale(1.05);
+}
 
 .hidden { display: none !important; }
 
 /* Response messages */
 .response {
-  margin-top: 10px;
-  font-weight: 700;
-  text-align: center;
-  padding: 8px;
-  border-radius: 10px;
+margin-top: 10px;
+font-weight: 700;
+text-align: center;
+padding: 8px;
+border-radius: 10px;
+animation: shake 0.5s;
 }
 
-.success { 
-  background-color: rgba(40, 167, 69, 0.1); 
-  color: var(--success-color);
+.success {
+background-color: rgba(40, 167, 69, 0.1);
+color: var(--success-color);
 }
 
-.error { 
-  background-color: rgba(220, 53, 69, 0.1); 
-  color: var(--error-color);
+.error {
+background-color: rgba(220, 53, 69, 0.1);
+color: var(--error-color);
 }
 
 /* Tracker section */
 #welcomeName {
-  font-weight: 700; 
-  font-size: 1.4rem;
-  color: var(--primary-color);
-  text-align: center;
-  margin: 5px 0 10px;
+font-weight: 700;
+font-size: 1.4rem;
+color: var(--primary-color);
+text-align: center;
+margin: 5px 0 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
 }
 
 .smart-cards {
-  background: rgba(255, 230, 240, 0.8);
-  border-radius: 20px;
-  padding: 15px;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 8px rgba(255, 111, 145, 0.3);
-  color: var(--text-color);
-  font-size: 0.95rem;
-  line-height: 1.4;
+background: rgba(255, 230, 240, 0.8);
+border-radius: 20px;
+padding: 15px;
+margin-bottom: 16px;
+box-shadow: 0 4px 8px rgba(255, 111, 145, 0.3);
+color: var(--text-color);
+font-size: 0.95rem;
+line-height: 1.4;
+position: relative;
+overflow: hidden;
+}
+
+.smart-cards::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(45deg, transparent 40%, rgba(255, 171, 211, 0.2) 45%, rgba(255, 171, 211, 0.2) 55%, transparent 60%);
+transform: translateX(-100%);
+animation: shine 3s infinite;
+}
+
+@keyframes shine {
+100% { transform: translateX(100%); }
 }
 
 label {
-  font-weight: 600;
-  margin-bottom: 5px;
-  color: var(--primary-color);
+font-weight: 600;
+margin-bottom: 5px;
+color: var(--primary-color);
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+label i {
+animation: float 3s infinite;
 }
 
 .expense-row {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 10px;
-  align-items: center;
+display: flex;
+gap: 8px;
+margin-bottom: 10px;
+align-items: center;
 }
 
 .expense-row input {
-  flex: 1;
-  padding: 10px;
+flex: 1;
+padding: 10px;
 }
 
 .delete-btn {
-  background: var(--primary-color) !important;
-  border-radius: 50%;
-  width: 36px !important;
-  height: 36px !important;
-  min-width: 36px !important;
-  font-size: 0.9rem;
-  padding: 0 !important;
-  box-shadow: none !important;
+background: var(--primary-color) !important;
+border-radius: 50%;
+width: 36px !important;
+height: 36px !important;
+min-width: 36px !important;
+font-size: 0.9rem;
+padding: 0 !important;
+box-shadow: none !important;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.3s;
+}
+
+.delete-btn:hover {
+transform: scale(1.1) rotate(10deg);
+background: var(--text-color) !important;
 }
 
 #addOtherExpenseBtn {
-  background: var(--secondary-color);
-  padding: 10px;
-  margin-bottom: 10px;
+background: var(--secondary-color);
+padding: 10px;
+margin-bottom: 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+transition: all 0.3s;
+}
+
+#addOtherExpenseBtn:hover {
+transform: scale(1.05);
 }
 
 #summary {
-  background: var(--background-color);
-  border-radius: 20px;
-  padding: 15px;
-  color: var(--text-color);
-  margin-top: 15px;
+background: var(--background-color);
+border-radius: 20px;
+padding: 15px;
+color: var(--text-color);
+margin-top: 15px;
+position: relative;
+overflow: hidden;
+}
+
+#summary::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(45deg, transparent 40%, rgba(255, 171, 211, 0.2) 45%, rgba(255, 171, 211, 0.2) 55%, transparent 60%);
+transform: translateX(-100%);
+animation: shine 3s infinite;
 }
 
 #summary p {
-  margin: 6px 0;
-  font-weight: 700;
+margin: 6px 0;
+font-weight: 700;
+display: flex;
+align-items: center;
+gap: 8px;
 }
 
 #motivation {
-  font-size: 1.2rem;
-  text-align: center;
-  margin-top: 10px;
-  font-weight: 700;
+font-size: 1.2rem;
+text-align: center;
+margin-top: 10px;
+font-weight: 700;
+padding: 10px;
+border-radius: 15px;
+background: rgba(255, 171, 211, 0.2);
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
 }
 
-/* Theme picker */
+/* Theme Picker Functionality */
 .theme-picker {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 10;
+position: absolute;
+top: 10px;
+right: 10px;
+z-index: 10;
 }
 
 .theme-btn {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 2px solid white;
-  cursor: pointer;
-  transition: transform 0.3s;
-  margin: 3px;
+width: 30px;
+height: 30px;
+border-radius: 50%;
+border: 2px solid white;
+cursor: pointer;
+transition: transform 0.3s;
+margin: 3px;
+box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .theme-btn:hover {
-  transform: scale(1.1);
+transform: scale(1.1);
 }
 
 .theme-default-btn { background: linear-gradient(45deg, #f9c5d1, #f7e3af, #b0d6e8); }
@@ -274,234 +458,483 @@ label {
 .theme-jungle-btn { background: linear-gradient(45deg, #1e9600, #fff200, #ff0000); }
 .theme-ocean-btn { background: linear-gradient(45deg, #00c9ff, #92fe9d, #00d2ff); }
 .theme-candy-btn { background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb); }
+.theme-bubbles-btn { background: linear-gradient(45deg, #a1c4fd, #c2e9fb, #d4fc79); }
 
 .theme-preview {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,0.7);
-  z-index: 100;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+display: none;
+justify-content: center;
+align-items: center;
+background: rgba(0,0,0,0.7);
+z-index: 100;
 }
 
 .theme-preview.active {
-  display: flex;
+display: flex;
 }
 
 .theme-options {
-  background: white;
-  padding: 20px;
-  border-radius: 20px;
-  text-align: center;
-  max-width: 300px;
-  width: 90%;
+background: white;
+padding: 20px;
+border-radius: 20px;
+text-align: center;
+max-width: 300px;
+width: 90%;
+animation: bounce 0.5s;
+}
+
+.theme-options h3 {
+color: var(--primary-color);
+margin-bottom: 15px;
+font-size: 1.2rem;
 }
 
 .theme-option-btn {
-  margin: 8px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.2rem;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  transition: all 0.3s;
-  border: 3px solid white;
+margin: 8px;
+width: 50px;
+height: 50px;
+border-radius: 50%;
+display: inline-flex;
+justify-content: center;
+align-items: center;
+font-size: 1.2rem;
+box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+transition: all 0.3s;
+border: 3px solid white;
+cursor: pointer;
 }
 
 .theme-option-btn:hover {
-  transform: scale(1.1) rotate(10deg);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+transform: scale(1.1) rotate(10deg);
+box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
 .close-preview {
-  background: var(--primary-color);
-  color: white;
-  padding: 8px 20px;
-  border-radius: 20px;
-  margin-top: 15px;
-  font-weight: bold;
+background: var(--primary-color);
+color: white;
+padding: 8px 20px;
+border-radius: 20px;
+margin-top: 15px;
+font-weight: bold;
+display: inline-block;
+transition: all 0.3s;
+}
+
+.close-preview:hover {
+transform: scale(1.05);
 }
 
 /* Mobile optimizations */
 @media (max-width: 480px) {
-  .container {
-    padding: 15px 10px;
-    margin: 5px;
-  }
-  
-  input[type=text], 
-  input[type=password], 
-  input[type=number], 
-  input[type=date], 
-  select {
-    padding: 10px 12px;
-    font-size: 0.95rem;
-  }
-  
-  button {
-    padding: 10px 0;
-    font-size: 0.95rem;
-  }
-  
-  .expense-row {
-    flex-direction: column;
-    gap: 6px;
-  }
-  
-  .expense-row input {
-    width: 100%;
-  }
-  
-  .delete-btn {
-    align-self: flex-end;
-  }
-  
-  h1 {
-    font-size: 2rem;
-  }
-  
-  #welcomeName {
-    font-size: 1.2rem;
-  }
-  
-  .smart-cards {
-    padding: 12px;
-  }
+.container {
+padding: 15px 10px;
+margin: 5px;
+}
+
+input[type=text],
+input[type=password],
+input[type=number],
+input[type=date],
+select {
+padding: 10px 12px;
+font-size: 0.95rem;
+}
+
+button {
+padding: 10px 0;
+font-size: 0.95rem;
+}
+
+.expense-row {
+flex-direction: column;
+gap: 6px;
+}
+
+.expense-row input {
+width: 100%;
+}
+
+.delete-btn {
+align-self: flex-end;
+}
+
+h1 {
+font-size: 2rem;
+}
+
+#welcomeName {
+font-size: 1.2rem;
+}
+
+.smart-cards {
+padding: 12px;
+}
+}
+
+/* App Download Banner */
+.app-banner {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+color: white;
+padding: 15px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+z-index: 50;
+box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+transform: translateY(100%);
+transition: transform 0.5s ease;
+}
+
+.app-banner.show {
+transform: translateY(0);
+}
+
+.app-banner .content {
+display: flex;
+align-items: center;
+gap: 15px;
+}
+
+.app-banner .icon {
+font-size: 2rem;
+animation: bounce 2s infinite;
+}
+
+.app-banner .text {
+flex: 1;
+}
+
+.app-banner .close-banner {
+background: rgba(255,255,255,0.3);
+border: none;
+color: white;
+width: 30px;
+height: 30px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+transition: all 0.3s;
+}
+
+.app-banner .close-banner:hover {
+background: rgba(255,255,255,0.5);
+}
+
+.app-banner button {
+background: white;
+color: var(--primary-color);
+border: none;
+padding: 8px 15px;
+border-radius: 20px;
+font-weight: bold;
+cursor: pointer;
+transition: all 0.3s;
+}
+
+.app-banner button:hover {
+transform: scale(1.05);
+background: var(--background-color);
+}
+
+/* Floating elements */
+.floating-element {
+position: absolute;
+z-index: -1;
+opacity: 0.7;
+animation: float 15s infinite ease-in-out;
+}
+
+.floating-element-1 {
+top: 20%;
+left: 10%;
+font-size: 2rem;
+animation-delay: 0s;
+}
+
+.floating-element-2 {
+top: 60%;
+right: 15%;
+font-size: 1.5rem;
+animation-delay: 2s;
+}
+
+.floating-element-3 {
+top: 30%;
+right: 5%;
+font-size: 1.8rem;
+animation-delay: 4s;
+}
+
+.floating-element-4 {
+bottom: 20%;
+left: 15%;
+font-size: 1.7rem;
+animation-delay: 6s;
+}
+
+/* Notification */
+.notification {
+position: fixed;
+top: 20px;
+right: 20px;
+background: white;
+border-left: 4px solid var(--primary-color);
+padding: 15px;
+border-radius: 5px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+z-index: 1000;
+transform: translateX(120%);
+transition: transform 0.5s ease;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.notification.show {
+transform: translateX(0);
+}
+
+.notification-icon {
+font-size: 1.5rem;
+color: var(--primary-color);
+}
+
+.notification-message {
+flex: 1;
+}
+
+.notification-close {
+background: none;
+border: none;
+font-size: 1.2rem;
+cursor: pointer;
+color: #999;
+transition: color 0.3s;
+}
+
+.notification-close:hover {
+color: #666;
 }
 </style>
 </head>
 <body class="theme-default">
 <div class="container">
-
 <!-- Theme Picker Floating Button -->
 <div class="theme-picker">
-  <button id="themeToggle" class="theme-btn theme-default-btn"><i class="fas fa-palette"></i></button>
+<button id="themeToggle" class="theme-btn theme-default-btn"><i class="fas fa-palette"></i></button>
 </div>
-
 <!-- Theme Preview Modal -->
 <div id="themePreview" class="theme-preview">
-  <div class="theme-options">
-    <h3 style="color: var(--primary-color); margin-bottom: 15px;">Choose Your Theme!</h3>
-    <button class="theme-option-btn theme-default-btn" data-theme="theme-default"><i class="fas fa-star"></i></button>
-    <button class="theme-option-btn theme-space-btn" data-theme="theme-space"><i class="fas fa-rocket"></i></button>
-    <button class="theme-option-btn theme-jungle-btn" data-theme="theme-jungle"><i class="fas fa-leaf"></i></button>
-    <button class="theme-option-btn theme-ocean-btn" data-theme="theme-ocean"><i class="fas fa-fish"></i></button>
-    <button class="theme-option-btn theme-candy-btn" data-theme="theme-candy"><i class="fas fa-candy-cane"></i></button>
-    <button class="close-preview">Close</button>
-  </div>
+<div class="theme-options">
+<h3 style="color: var(--primary-color); margin-bottom: 15px;">Choose Your Theme!</h3>
+<button class="theme-option-btn theme-default-btn" data-theme="theme-default"><i class="fas fa-star"></i></button>
+<button class="theme-option-btn theme-space-btn" data-theme="theme-space"><i class="fas fa-rocket"></i></button>
+<button class="theme-option-btn theme-jungle-btn" data-theme="theme-jungle"><i class="fas fa-leaf"></i></button>
+<button class="theme-option-btn theme-ocean-btn" data-theme="theme-ocean"><i class="fas fa-fish"></i></button>
+<button class="theme-option-btn theme-candy-btn" data-theme="theme-candy"><i class="fas fa-candy-cane"></i></button>
+<button class="theme-option-btn theme-bubbles-btn" data-theme="theme-bubbles"><i class="fas fa-water"></i></button>
+<button class="close-preview">Close</button>
+</div>
+</div>
+
+<!-- Floating Elements -->
+<div class="floating-element floating-element-1">💰</div>
+<div class="floating-element floating-element-2">📈</div>
+<div class="floating-element floating-element-3">📊</div>
+<div class="floating-element floating-element-4">💸</div>
+
+<!-- Notification -->
+<div id="notification" class="notification">
+<div class="notification-icon"><i class="fas fa-check-circle"></i></div>
+<div class="notification-message">This is a notification message!</div>
+<button class="notification-close"><i class="fas fa-times"></i></button>
 </div>
 
 <!-- Signup Section -->
 <section id="signupSection" class="active">
-  <h1><i class="fa-solid fa-wallet"></i> Budget Buddy <span class="dollar-animation">💰📈📊</span></h1>
-  <form id="signupForm">
-    <input name="nickname" type="text" placeholder="Nickname" required>
-    <input name="username" type="text" placeholder="Username" required>
-    <input name="password" type="password" placeholder="Password" required>
-    <button type="submit"><i class="fa-solid fa-user-plus"></i> Sign Up</button>
-  </form>
-  <div id="signupResponse" class="response"></div>
-  <p class="switch-link" id="toLogin">Already have an account? Log in here.</p>
+<h1><i class="fa-solid fa-wallet"></i> Budget Buddy <span class="dollar-animation">💰📈📊</span></h1>
+<form id="signupForm">
+<input name="nickname" type="text" placeholder="Nickname" required>
+<input name="username" type="text" placeholder="Username" required>
+<input name="password" type="password" placeholder="Password" required>
+<button type="submit"><i class="fa-solid fa-user-plus"></i> Sign Up</button>
+</form>
+<div id="signupResponse" class="response"></div>
+<p class="switch-link" id="toLogin">Already have an account? Log in here.</p>
 </section>
 
 <!-- Login Section -->
 <section id="loginSection" class="hidden">
-  <h1><i class="fa-solid fa-wallet"></i> Budget Buddy <span class="dollar-animation">💰📈📊</span></h1>
-  <form id="loginForm">
-    <input name="username" type="text" placeholder="Username" required>
-    <input name="password" type="password" placeholder="Password" required>
-    <button type="submit"><i class="fa-solid fa-right-to-bracket"></i> Log In</button>
-  </form>
-  <div id="loginResponse" class="response"></div>
-  <p class="switch-link" id="toSignup">Don't have an account? Sign up here.</p>
+<h1><i class="fa-solid fa-wallet"></i> Budget Buddy <span class="dollar-animation">💰📈📊</span></h1>
+<form id="loginForm">
+<input name="username" type="text" placeholder="Username" required>
+<input name="password" type="password" placeholder="Password" required>
+<button type="submit"><i class="fa-solid fa-right-to-bracket"></i> Log In</button>
+</form>
+<div id="loginResponse" class="response"></div>
+<p class="switch-link" id="toSignup">Don't have an account? Sign up here.</p>
 </section>
 
 <!-- Tracker Section -->
 <section id="trackerSection" class="hidden">
-  <div id="welcomeName"></div>
-  
-  <div class="smart-cards">
-    <strong><i class="fas fa-lightbulb"></i> Smart Money Tips:</strong>
-    <ul style="margin-top: 5px; padding-left: 20px;">
-      <li>🎯 Save 10% of your allowance</li>
-      <li>🛍️ Track your expenses</li>
-      <li>💡 Think before you spend</li>
-      <li>📈 Plan weekly</li>
-    </ul>
-  </div>
-  
-  <form id="expenseForm">
-    <label><i class="fas fa-calendar-alt"></i> Date</label>
-    <input name="date" type="date" required>
-    
-    <label><i class="fas fa-coins"></i> Allowance (₱)</label>
-    <input name="allowance" type="number" min="0" required>
-    
-    <label><i class="fas fa-bus"></i> Transportation (₱)</label>
-    <input name="transportation" type="number" min="0" value="0" required>
-    
-    <label><i class="fas fa-utensils"></i> Meals or Snacks (₱)</label>
-    <input name="meals" type="number" min="0" value="0" required>
-    
-    <label><i class="fas fa-shopping-basket"></i> Other Expenses</label>
-    <div id="otherExpensesList"></div>
-    
-    <button type="button" id="addOtherExpenseBtn"><i class="fa-solid fa-plus"></i> Add Other Expense</button>
-    <button type="submit"><i class="fa-solid fa-check"></i> Submit Expenses</button>
-  </form>
-  
-  <div id="summary" class="hidden">
-    <p><i class="fas fa-piggy-bank"></i> <strong>Allowance:</strong> ₱<span id="sumAllowance">0</span></p>
-    <p><i class="fas fa-receipt"></i> <strong>Total Expenses:</strong> ₱<span id="sumExpenses">0</span></p>
-    <p><i class="fas fa-wallet"></i> <strong>Remaining:</strong> ₱<span id="sumRemaining">0</span></p>
-    <p><i class="fas fa-bullseye"></i> <strong>Target Save (10%):</strong> ₱<span id="sumTarget">0</span></p>
-    <p><i class="fas fa-coins"></i> <strong>Savings:</strong> ₱<span id="sumActual">0</span></p>
-    <p id="motivation"></p>
-  </div>
-  
-  <button id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+<div id="welcomeName"></div>
+
+<div class="smart-cards">
+<strong><i class="fas fa-lightbulb"></i> Smart Money Tips:</strong>
+<ul style="margin-top: 5px; padding-left: 20px;">
+<li>🎯 Save 10% of your allowance</li>
+<li>🛍️ Track your expenses</li>
+<li>💡 Think before you spend</li>
+<li>📈 Plan weekly</li>
+</ul>
+</div>
+
+<form id="expenseForm">
+<label><i class="fas fa-calendar-alt"></i> Date</label>
+<input name="date" type="date" required>
+
+<label><i class="fas fa-coins"></i> Allowance (₱)</label>
+<input name="allowance" type="number" min="0" required>
+
+<label><i class="fas fa-bus"></i> Transportation (₱)</label>
+<input name="transportation" type="number" min="0" value="0" required>
+
+<label><i class="fas fa-utensils"></i> Meals or Snacks (₱)</label>
+<input name="meals" type="number" min="0" value="0" required>
+
+<label><i class="fas fa-shopping-basket"></i> Other Expenses</label>
+<div id="otherExpensesList"></div>
+
+<button type="button" id="addOtherExpenseBtn"><i class="fa-solid fa-plus"></i> Add Other Expense</button>
+<button type="submit"><i class="fa-solid fa-check"></i> Submit Expenses</button>
+</form>
+
+<div id="summary" class="hidden">
+<p><i class="fas fa-piggy-bank"></i> <strong>Allowance:</strong> ₱<span id="sumAllowance">0</span></p>
+<p><i class="fas fa-receipt"></i> <strong>Total Expenses:</strong> ₱<span id="sumExpenses">0</span></p>
+<p><i class="fas fa-wallet"></i> <strong>Remaining:</strong> ₱<span id="sumRemaining">0</span></p>
+<p><i class="fas fa-bullseye"></i> <strong>Target Save (10%):</strong> ₱<span id="sumTarget">0</span></p>
+<p><i class="fas fa-coins"></i> <strong>Savings:</strong> ₱<span id="sumActual">0</span></p>
+<p id="motivation"></p>
+</div>
+
+<button id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
 </section>
+
+<!-- App Download Banner -->
+<div id="appBanner" class="app-banner">
+<div class="content">
+<div class="icon"><i class="fas fa-mobile-alt"></i></div>
+<div class="text">
+<h3>Download Budget Buddy App!</h3>
+<p>Track your expenses on the go with our mobile app.</p>
+</div>
+</div>
+<a href="https://play.google.com/store/apps/details?id=com.budgetbuddy" target="_blank" class="download-btn">Download Now</a>
+<button class="close-banner"><i class="fas fa-times"></i></button>
 </div>
 
 <script>
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnl_EqA7orHiOLBYAc1YuLCYp-1KwZbF9AjoGVhNQmfBzlDzXEYBYb_Uy_t51u4GHgxw/exec';
 
+// Theme variables
+const themes = {
+default: {
+primary: '#ff6f91',
+secondary: '#ffaad3',
+background: '#fff0f6',
+text: '#6a2c70',
+accent: '#ffcccb'
+},
+space: {
+primary: '#6a5acd',
+secondary: '#9370db',
+background: '#f0f8ff',
+text: '#4b0082',
+accent: '#d8bfd8'
+},
+jungle: {
+primary: '#2e8b57',
+secondary: '#3cb371',
+background: '#f0fff0',
+text: '#006400',
+accent: '#90ee90'
+},
+ocean: {
+primary: '#1e90ff',
+secondary: '#87cefa',
+background: '#e6f2ff',
+text: '#000080',
+accent: '#b0e0e6'
+},
+candy: {
+primary: '#ff69b4',
+secondary: '#ffb6c1',
+background: '#fff0f5',
+text: '#c71585',
+accent: '#ffc0cb'
+},
+bubbles: {
+primary: '#a1c4fd',
+secondary: '#c2e9fb',
+background: '#f5f7ff',
+text: '#0a4b78',
+accent: '#b8e1fc'
+}
+};
+
+// DOM Elements
 const signupSection = document.getElementById('signupSection');
 const loginSection = document.getElementById('loginSection');
-const trackerSection= document.getElementById('trackerSection');
-
+const trackerSection = document.getElementById('trackerSection');
 const signupForm = document.getElementById('signupForm');
 const loginForm = document.getElementById('loginForm');
-const expenseForm= document.getElementById('expenseForm');
-
+const expenseForm = document.getElementById('expenseForm');
 const signupResponse = document.getElementById('signupResponse');
 const loginResponse = document.getElementById('loginResponse');
-
 const welcomeName = document.getElementById('welcomeName');
+const toLogin = document.getElementById('toLogin');
+const toSignup = document.getElementById('toSignup');
+const addOtherExpenseBtn = document.getElementById('addOtherExpenseBtn');
+const otherExpensesList = document.getElementById('otherExpensesList');
+const summary = document.getElementById('summary');
+const logoutBtn = document.getElementById('logoutBtn');
+const themeToggle = document.getElementById('themeToggle');
+const themePreview = document.getElementById('themePreview');
+const themeOptions = document.querySelectorAll('[data-theme]');
+const closePreview = document.querySelector('.close-preview');
+const appBanner = document.getElementById('appBanner');
+const appBannerClose = document.querySelector('.close-banner');
+const notification = document.getElementById('notification');
+const notificationClose = document.querySelector('.notification-close');
 
-document.getElementById('toLogin').onclick = showLogin;
-document.getElementById('toSignup').onclick = showSignup;
-
-function showSignup(){
+// Switch between sections
+function showSignup() {
 signupSection.classList.remove('hidden');
 loginSection.classList.add('hidden');
 trackerSection.classList.add('hidden');
 signupResponse.textContent = '';
+showNotification('Welcome to Budget Buddy!', 'info');
 }
-function showLogin(){
+
+function showLogin() {
 signupSection.classList.add('hidden');
 loginSection.classList.remove('hidden');
 trackerSection.classList.add('hidden');
 loginResponse.textContent = '';
 }
-function showTracker(username){
+
+function showTracker(username) {
 signupSection.classList.add('hidden');
 loginSection.classList.add('hidden');
 trackerSection.classList.remove('hidden');
@@ -510,171 +943,267 @@ expenseForm.reset();
 document.getElementById('summary').classList.add('hidden');
 document.querySelector('#otherExpensesList').innerHTML = '';
 document.querySelector('[name=date]').value = new Date().toISOString().split('T')[0];
+showNotification(`Welcome back, ${username}!`, 'success');
 }
 
+// Add other expense row
+addOtherExpenseBtn.addEventListener('click', () => {
+const row = document.createElement('div');
+row.className = 'expense-row';
+
+const itemInput = document.createElement('input');
+itemInput.type = 'text';
+itemInput.placeholder = 'Item';
+itemInput.required = true;
+
+const amountInput = document.createElement('input');
+amountInput.type = 'number';
+amountInput.min = '0';
+amountInput.placeholder = '₱ Amount';
+amountInput.required = true;
+
+const deleteBtn = document.createElement('button');
+deleteBtn.type = 'button';
+deleteBtn.className = 'delete-btn';
+deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+deleteBtn.onclick = () => {
+row.classList.add('fade-out');
+setTimeout(() => row.remove(), 300);
+};
+
+row.append(itemInput, amountInput, deleteBtn);
+otherExpensesList.append(row);
+
+// Add fade-in animation
+row.style.opacity = '0';
+setTimeout(() => {
+row.style.transition = 'opacity 0.3s ease';
+row.style.opacity = '1';
+}, 10);
+});
+
+// Form submissions
 signupForm.addEventListener('submit', async e => {
 e.preventDefault();
 signupResponse.textContent = '';
+signupResponse.className = '';
+
 const formData = new FormData(signupForm);
-formData.append('action','signup');
-const res = await fetch(SCRIPT_URL,{method:'POST',body:new URLSearchParams(formData)});
-const txt=await res.text();
+formData.append('action', 'signup');
+
+try {
+const res = await fetch(SCRIPT_URL, {
+method: 'POST',
+body: new URLSearchParams(formData)
+});
+
+const txt = await res.text();
 signupResponse.textContent = txt;
-signupResponse.className = txt.includes('successful')?'success':'error';
-if(txt.includes('successful')) setTimeout(showLogin,1000);
+signupResponse.className = txt.includes('successful') ? 'success' : 'error';
+
+if (txt.includes('successful')) {
+setTimeout(() => {
+showLogin();
+}, 1500);
+}
+} catch (error) {
+signupResponse.textContent = 'Error submitting form. Please try again.';
+signupResponse.className = 'error';
+}
 });
 
 loginForm.addEventListener('submit', async e => {
 e.preventDefault();
 loginResponse.textContent = '';
+loginResponse.className = '';
+
 const formData = new FormData(loginForm);
-formData.append('action','login');
-const res = await fetch(SCRIPT_URL,{method:'POST',body:new URLSearchParams(formData)});
-const txt=await res.text();
-loginResponse.textContent = txt;
-loginResponse.className = txt.includes('successful')?'success':'error';
-if(txt.includes('successful')){
-const user = loginForm.username.value;
-showTracker(user.charAt(0).toUpperCase()+user.slice(1));
-}
+formData.append('action', 'login');
+
+try {
+const res = await fetch(SCRIPT_URL, {
+method: 'POST',
+body: new URLSearchParams(formData)
 });
 
-document.getElementById('addOtherExpenseBtn').addEventListener('click', () => {
-const row = document.createElement('div'); row.className='expense-row';
-const i1 = document.createElement('input'); i1.type='text'; i1.placeholder='Item'; i1.required=true;
-const i2 = document.createElement('input'); i2.type='number'; i2.min='0'; i2.placeholder='₱ Amount'; i2.required=true;
-const btn = document.createElement('button'); btn.type='button'; btn.className='delete-btn'; btn.innerHTML='<i class="fa-solid fa-xmark"></i>';
-btn.onclick = ()=>row.remove();
-row.append(i1,i2,btn);
-document.getElementById('otherExpensesList').append(row);
+const txt = await res.text();
+loginResponse.textContent = txt;
+loginResponse.className = txt.includes('successful') ? 'success' : 'error';
+
+if (txt.includes('successful')) {
+const user = loginForm.username.value;
+setTimeout(() => {
+showTracker(user.charAt(0).toUpperCase() + user.slice(1));
+}, 1000);
+}
+} catch (error) {
+loginResponse.textContent = 'Error logging in. Please try again.';
+loginResponse.className = 'error';
+}
 });
 
 expenseForm.addEventListener('submit', async e => {
 e.preventDefault();
-const username = welcomeName.textContent.replace('Hi, ','').replace(' 🎉','');
+
+const username = welcomeName.textContent.replace('Hi, ', '').replace(' 🎉', '');
 const data = new FormData(expenseForm);
-const otherItems=[]; const otherAmounts=[];
+
+// Get other expenses
+const otherItems = [];
+const otherAmounts = [];
 document.querySelectorAll('.expense-row').forEach(r => {
 otherItems.push(r.children[0].value);
 otherAmounts.push(r.children[1].value);
 });
-data.append('action','submitExpenses');
+
+data.append('action', 'submitExpenses');
 data.append('username', username.toLowerCase());
 data.append('otherItems', JSON.stringify(otherItems));
 data.append('otherAmounts', JSON.stringify(otherAmounts));
-const res = await fetch(SCRIPT_URL,{method:'POST',body:new URLSearchParams(data)});
+
+try {
+const res = await fetch(SCRIPT_URL, {
+method: 'POST',
+body: new URLSearchParams(data)
+});
+
 await res.text(); // ignore message for now
-// display summary
+
+// Calculate and display summary
 const allowance = +data.get('allowance');
 const t = +data.get('transportation');
 const m = +data.get('meals');
-const totalOthers = otherAmounts.reduce((a,b)=>a+(+b),0);
-const total = t+m+totalOthers;
+const totalOthers = otherAmounts.reduce((a, b) => a + (+b), 0);
+const total = t + m + totalOthers;
+
 document.getElementById('sumAllowance').textContent = allowance.toFixed(2);
 document.getElementById('sumExpenses').textContent = total.toFixed(2);
-document.getElementById('sumRemaining').textContent = (allowance-total).toFixed(2);
-const target = allowance*0.1;
+document.getElementById('sumRemaining').textContent = (allowance - total).toFixed(2);
+
+const target = allowance * 0.1;
 document.getElementById('sumTarget').textContent = target.toFixed(2);
-document.getElementById('sumActual').textContent = ((allowance-total)>=target?allowance-total:0).toFixed(2);
-const msg = document.getElementById('motivation');
-if ((allowance-total)>=target) {
-msg.textContent = '🎉 You hit your savings goal!';
-msg.style.color='#28a745';
-} else if ((allowance-total)>0) {
-msg.textContent = 'Keep going, you’re close!';
-msg.style.color='#ff6f91';
+
+const savings = (allowance - total) >= target ? (allowance - total) : 0;
+document.getElementById('sumActual').textContent = savings.toFixed(2);
+
+const motivation = document.getElementById('motivation');
+if ((allowance - total) >= target) {
+motivation.textContent = '🎉 You hit your savings goal!';
+motivation.style.color = '#28a745';
+} else if ((allowance - total) > 0) {
+motivation.textContent = 'Keep going, you\'re close!';
+motivation.style.color = '#ff6f91';
 } else {
-msg.textContent = 'Try saving a bit tomorrow!';
-msg.style.color='#6a2c70';
-}
-document.getElementById('summary').classList.remove('hidden');
-});
-
-// Theme Picker Functionality
-const themeToggle = document.getElementById('themeToggle');
-const themePreview = document.getElementById('themePreview');
-const themeOptions = document.querySelectorAll('[data-theme]');
-const closePreview = document.querySelector('.close-preview');
-
-// Toggle theme preview modal
-themeToggle.addEventListener('click', () => {
-  themePreview.classList.add('active');
-});
-
-// Close theme preview modal
-closePreview.addEventListener('click', () => {
-  themePreview.classList.remove('active');
-});
-
-// Apply selected theme
-themeOptions.forEach(option => {
-  option.addEventListener('click', () => {
-    const theme = option.getAttribute('data-theme');
-    document.body.className = theme;
-    
-    // Update CSS variables based on theme
-    switch(theme) {
-      case 'theme-space':
-        document.documentElement.style.setProperty('--primary-color', '#6a5acd');
-        document.documentElement.style.setProperty('--secondary-color', '#9370db');
-        document.documentElement.style.setProperty('--background-color', '#f0f8ff');
-        document.documentElement.style.setProperty('--text-color', '#4b0082');
-        break;
-      case 'theme-jungle':
-        document.documentElement.style.setProperty('--primary-color', '#2e8b57');
-        document.documentElement.style.setProperty('--secondary-color', '#3cb371');
-        document.documentElement.style.setProperty('--background-color', '#f0fff0');
-        document.documentElement.style.setProperty('--text-color', '#006400');
-        break;
-      case 'theme-ocean':
-        document.documentElement.style.setProperty('--primary-color', '#1e90ff');
-        document.documentElement.style.setProperty('--secondary-color', '#87cefa');
-        document.documentElement.style.setProperty('--background-color', '#e6f2ff');
-        document.documentElement.style.setProperty('--text-color', '#000080');
-        break;
-      case 'theme-candy':
-        document.documentElement.style.setProperty('--primary-color', '#ff69b4');
-        document.documentElement.style.setProperty('--secondary-color', '#ffb6c1');
-        document.documentElement.style.setProperty('--background-color', '#fff0f5');
-        document.documentElement.style.setProperty('--text-color', '#c71585');
-        break;
-      default: // Default theme
-        document.documentElement.style.setProperty('--primary-color', '#ff6f91');
-        document.documentElement.style.setProperty('--secondary-color', '#ffaad3');
-        document.documentElement.style.setProperty('--background-color', '#fff0f6');
-        document.documentElement.style.setProperty('--text-color', '#6a2c70');
-    }
-    
-    // Close the preview after selection
-    themePreview.classList.remove('active');
-    
-    // Add animation to theme button
-    themeToggle.classList.add('pulse');
-    setTimeout(() => {
-      themeToggle.classList.remove('pulse');
-    }, 500);
-  });
-});
-
-// Add pulse animation class
-const pulseKeyframes = `
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
-}
-`;
-const pulseStyle = document.createElement('style');
-pulseStyle.innerHTML = pulseKeyframes;
-document.head.appendChild(pulseStyle);
-
-
-document.getElementById('logoutBtn').onclick = () => {
-showLogin();
+motivation.textContent = 'Try saving a bit tomorrow!';
+motivation.style.color = '#6a2c70';
 }
 
-// initialize
+summary.classList.remove('hidden');
+showNotification('Expenses submitted successfully!', 'success');
+} catch (error) {
+showNotification('Error submitting expenses. Please try again.', 'error');
+}
+});
+
+// Logout
+logoutBtn.addEventListener('click', () => {
 showSignup();
+});
+
+// Theme functionality
+themeToggle.addEventListener('click', () => {
+themePreview.classList.add('active');
+});
+
+closePreview.addEventListener('click', () => {
+themePreview.classList.remove('active');
+});
+
+themeOptions.forEach(option => {
+option.addEventListener('click', () => {
+const theme = option.getAttribute('data-theme');
+document.body.className = theme;
+
+// Update CSS variables based on theme
+switch(theme) {
+case 'theme-space':
+updateThemeColors(themes.space);
+break;
+case 'theme-jungle':
+updateThemeColors(themes.jungle);
+break;
+case 'theme-ocean':
+updateThemeColors(themes.ocean);
+break;
+case 'theme-candy':
+updateThemeColors(themes.candy);
+break;
+case 'theme-bubbles':
+updateThemeColors(themes.bubbles);
+break;
+default:
+updateThemeColors(themes.default);
+}
+
+themePreview.classList.remove('active');
+showNotification(`Theme changed to ${theme.replace('theme-', '')}!`, 'info');
+});
+});
+
+function updateThemeColors(theme) {
+document.documentElement.style.setProperty('--primary-color', theme.primary);
+document.documentElement.style.setProperty('--secondary-color', theme.secondary);
+document.documentElement.style.setProperty('--background-color', theme.background);
+document.documentElement.style.setProperty('--text-color', theme.text);
+document.documentElement.style.setProperty('--accent-color', theme.accent);
+}
+
+// App Banner
+setTimeout(() => {
+appBanner.classList.add('show');
+}, 3000);
+
+appBannerClose.addEventListener('click', () => {
+appBanner.classList.remove('show');
+});
+
+// Notification system
+function showNotification(message, type = 'info') {
+const notificationIcon = notification.querySelector('.notification-icon i');
+const notificationMessage = notification.querySelector('.notification-message');
+
+// Set icon and color based on type
+if (type === 'success') {
+notificationIcon.className = 'fas fa-check-circle';
+notificationIcon.style.color = 'var(--success-color)';
+} else if (type === 'error') {
+notificationIcon.className = 'fas fa-exclamation-circle';
+notificationIcon.style.color = 'var(--error-color)';
+} else {
+notificationIcon.className = 'fas fa-info-circle';
+notificationIcon.style.color = 'var(--primary-color)';
+}
+
+notificationMessage.textContent = message;
+notification.classList.add('show');
+
+// Auto-hide after 3 seconds
+setTimeout(() => {
+notification.classList.remove('show');
+}, 3000);
+}
+
+notificationClose.addEventListener('click', () => {
+notification.classList.remove('show');
+});
+
+// Initialize with signup page
+showSignup();
+
+// Add animation to dollar animation span
+const dollarAnimation = document.querySelector('.dollar-animation');
+dollarAnimation.style.display = 'inline-block';
+dollarAnimation.style.animation = 'bounce 2s infinite';
 </script>
 </body>
 </html>
