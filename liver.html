@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Amazing Liver | Body Parts Adventure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --dark: #292F36;
+            --light: #F7FFF7;
+        }
+        
+        body {
+            font-family: 'Comic Neue', cursive, sans-serif;
+            background: linear-gradient(-45deg, #f5d6e9, #e6f3ff, #e0f7e0, #fff9e0);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .liver-info-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .liver-info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        }
+        
+        .floating-element {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .liver-image {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .floating-element {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20">
+    <!-- Floating background elements -->
+    <div class="floating-element" style="top: 10%; left: 5%;">
+        <i class="fas fa-heartbeat text-5xl text-red-400 floating" style="animation-delay: 0.1s;"></i>
+    </div>
+    <div class="floating-element" style="top: 30%; right: 10%;">
+        <i class="fas fa-pills text-6xl text-blue-300 floating" style="animation-delay: 0.3s;"></i>
+    </div>
+    <div class="floating-element" style="bottom: 15%; left: 20%;">
+        <i class="fas fa-apple-alt text-7xl text-green-300 floating" style="animation-delay: 0.5s;"></i>
+    </div>
+    <div class="floating-element" style="top: 20%; right: 25%;">
+        <i class="fas fa-stethoscope text-4xl text-purple-300 floating" style="animation-delay: 0.2s;"></i>
+    </div>
+    
+    <div class="container mx-auto px-4">
+        <!-- Header -->
+        <header class="text-center py-8">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-500">
+                The <span class="pulse">Super Liver</span>!
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-700">
+                Your body's amazing cleaning and nutrition factory!
+            </p>
+            <div class="mt-6 bounce">
+                <i class="fas fa-arrow-down text-3xl text-pink-500"></i>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <main class="max-w-4xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="flex justify-center">
+                    <div class="liver-image rounded-full bg-white p-4 shadow-xl transform rotate-6 hover:rotate-0 transition-transform duration-500">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d710807d-4a47-43bb-a0e9-3741653e9164.png" alt="Colorful cartoon liver with happy face, floating inside a human body outline" width="400" height="400" class="rounded-full border-4 border-yellow-300" />
+                    </div>
+                </div>
+                
+                <div class="liver-info-card p-6">
+                    <h2 class="text-3xl font-bold mb-4 text-blue-600">
+                        <i class="fas fa-star text-yellow-400 mr-2"></i>
+                        Meet Your Liver!
+                    </h2>
+                    <p class="text-lg mb-4">
+                        The liver is your body's largest <span class="font-bold text-green-600">internal organ</span> and sits on the right side of your belly, tucked under your ribs.
+                    </p>
+                    <p class="text-lg">
+                        It's about the size of a football and works super hard every day to keep you healthy!
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Fun Facts Section -->
+            <div class="mt-16 liver-info-card p-6">
+                <h2 class="text-3xl font-bold mb-6 text-center text-purple-600">
+                    <i class="fas fa-lightbulb text-yellow-400 mr-2"></i>
+                    Cool Liver Facts!
+                </h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400 transform hover:scale-105 transition-transform">
+                        <h3 class="font-bold text-blue-700 text-xl mb-2">
+                            <i class="fas fa-recycle text-blue-500 mr-2"></i>
+                            Detox Hero
+                        </h3>
+                        <p>Your liver cleans your blood by removing harmful substances like medicines and chemicals!</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-400 transform hover:scale-105 transition-transform">
+                        <h3 class="font-bold text-green-700 text-xl mb-2">
+                            <i class="fas fa-battery-three-quarters text-green-500 mr-2"></i>
+                            Energy Factory
+                        </h3>
+                        <p>It stores sugar (glucose) and releases it when your body needs extra energy!</p>
+                    </div>
+                    <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400 transform hover:scale-105 transition-transform">
+                        <h3 class="font-bold text-yellow-700 text-xl mb-2">
+                            <i class="fas fa-utensils text-yellow-500 mr-2"></i>
+                            Digestion Helper
+                        </h3>
+                        <p>The liver makes bile that helps your intestines break down yummy food!</p>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-400 transform hover:scale-105 transition-transform">
+                        <h3 class="font-bold text-red-700 text-xl mb-2">
+                            <i class="fas fa-shield-alt text-red-500 mr-2"></i>
+                            Germ Fighter
+                        </h3>
+                        <p>It helps fight infections by removing bacteria from your blood!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Digestive System Role -->
+            <div class="mt-16 liver-info-card p-8">
+                <h2 class="text-3xl font-bold mb-6 text-center text-red-500">
+                    <i class="fas fa-digging text-orange-400 mr-2"></i>
+                    The Liver's Digestive Job
+                </h2>
+                
+                <div class="flex items-center mb-6 p-4 bg-amber-50 rounded-lg">
+                    <div class="mr-4 text-5xl text-amber-500">
+                        <i class="fas fa-burn"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-amber-700">Bile Production</h3>
+                        <p>The liver makes about 1 liter of bile every day! This special liquid helps break down fats in your food.</p>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-4 mb-8">
+                    <div class="flex flex-col items-center text-center p-4">
+                        <div class="text-4xl text-green-500 mb-3">
+                            <i class="fas fa-hamburger"></i>
+                        </div>
+                        <p class="font-bold text-green-700">1. Food Arrives</p>
+                        <p class="text-sm">Food with fat enters your digestive system</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center p-4">
+                        <div class="text-4xl text-blue-500 mb-3">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <p class="font-bold text-blue-700">2. Bile Gets Made</p>
+                        <p class="text-sm">Liver creates bile to break down the fat</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center p-4">
+                        <div class="text-4xl text-purple-500 mb-3">
+                            <i class="fas fa-utensil-spoon"></i>
+                        </div>
+                        <p class="font-bold text-purple-700">3. Nutrients Absorbed</p>
+                        <p class="text-sm">Now your body can use the healthy fats</p>
+                    </div>
+                </div>
+                
+                <div class="relative h-64 bg-gray-100 rounded-lg overflow-hidden">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e47637cd-88db-4e82-b29f-1c22dca66aa4.png" alt="Colorful diagram showing digestive system with liver highlighted, demonstrating how food travels and gets processed" class="w-full h-full object-cover" />
+                    <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
+                        <p class="text-center">The liver (the red part) works with the digestive system!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quiz Section -->
+            <div class="mt-16 liver-info-card p-8 text-center">
+                <h2 class="text-3xl font-bold mb-6 text-indigo-600">
+                    <i class="fas fa-question-circle text-indigo-400 mr-2"></i>
+                    Quick Liver Quiz!
+                </h2>
+                
+                <div id="quiz-container" class="max-w-md mx-auto">
+                    <div id="question" class="font-bold text-xl mb-4">The liver is part of which body system?</div>
+                    
+                    <div class="space-y-3">
+                        <button onclick="checkAnswer('digestive', this)" class="w-full p-3 bg-blue-100 rounded-lg hover:bg-blue-200 transition-colors">
+                            A) Digestive System
+                        </button>
+                        <button onclick="checkAnswer('skeletal', this)" class="w-full p-3 bg-green-100 rounded-lg hover:bg-green-200 transition-colors">
+                            B) Skeletal System
+                        </button>
+                        <button onclick="checkAnswer('nervous', this)" class="w-full p-3 bg-yellow-100 rounded-lg hover:bg-yellow-200 transition-colors">
+                            C) Nervous System
+                        </button>
+                    </div>
+                    
+                    <div id="result" class="mt-4 font-bold text-lg hidden"></div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="mt-20 text-center text-gray-600">
+            <p>Made with ❤️ for curious kids! | Learn more about your amazing body!</p>
+            <div class="flex justify-center space-x-4 mt-4">
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        
+        // Make floating elements more dynamic
+        document.addEventListener('mousemove', (e) => {
+            const floatingElements = document.querySelectorAll('.floating-element');
+            floatingElements.forEach((el) => {
+                const speed = parseFloat(el.getAttribute('data-speed')) || 0.02;
+                const x = (window.innerWidth - e.pageX) * speed;
+                const y = (window.innerHeight - e.pageY) * speed;
+                el.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
+
